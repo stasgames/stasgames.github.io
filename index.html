@@ -47,7 +47,11 @@
     body.dark { background: #121212; color: #eee; }
     header {
       text-align: center;
-      background: linear-gradient(135deg, #667eea, #764ba2);
+      background: 
+      linear-gradient(135deg, rgba(102, 126, 234, 0.7), rgba(118, 75, 162, 0.85)), 
+      url('images/linkedin_back_1584x396px.png');
+      background-size: cover;
+      background-position: center;
       color: white;
       padding: 60px 20px 40px;
       position: relative;
@@ -60,6 +64,7 @@
     header img.logo { width: 80px; margin-top: 20px; }
     header h1 { margin: 20px 0 10px; font-size: 2.5em; }
     header p { font-size: 1.2em; margin: 0; opacity: 0.9; }
+    
     .socials { margin: 25px 0; }
     .socials a { margin: 0 12px; font-size: 1.8em; color: white; transition: 0.3s; }
     .socials a:hover { transform: scale(1.2); opacity: 0.8; }
@@ -70,11 +75,7 @@
     section.about.visible, table.visible, footer.visible { opacity: 1; transform: translateY(0); }
     section.about { background: white; border-radius: 10px; padding: 25px; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
     section.about p { font-size: 1.1em; line-height: 1.6em; }
-    .centered {
-    text-align: center;
-    max-width: 800px; /
-    margin: 0 auto;
-    }
+    
     table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); margin-bottom: 40px; }
     th, td { padding: 15px; text-align: left; vertical-align: top; }
     th { background: #667eea; color: white; }
@@ -107,7 +108,7 @@
     body.dark td a { color: #7da7ff; }
     body.dark footer { background: #111; color: #bbb; }
 
-    #themeToggle { position: fixed; top: 50px; right: 100px; background: #667eea; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 16px; z-index: 1000; }
+    #themeToggle { position: fixed; top: 20px; right: 100px; background: #667eea; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 16px; z-index: 1000; }
     #themeToggle:hover { opacity: 0.8; }
 
     @media (max-width: 768px) {
@@ -143,14 +144,12 @@
 <main>
   <section class="about" id="about">
     <h2>ABOUT ME</h2>
-    <div class="centered">
     <p>
      Hello!<br>
      I'm a Game Designer with expertise in metagame and system design.<br>
      I lead the development of features from concept to release.<br>
      I'm a data-driven team player who can find common ground with a team.
     </p>
-    </div>
   </section>
 
   <section id="projects">
@@ -246,6 +245,3 @@ link.classList.remove("active");
 </script>
 </body>
 </html>
-
-
-
