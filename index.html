@@ -6,6 +6,18 @@
   <title>Stas Solomko's Portfolio</title>
   <script src="https://kit.fontawesome.com/58116ba1b7.js" crossorigin="anonymous"></script>
   <style>
+    :root {
+    --tag-color-blue: #007bff;
+    --tag-color-coral: #ff7f50;
+    --tag-color-darkgray: #a9a9a9;
+    --tag-color-darkmagenta: #8b008b;
+    --tag-color-green: #28a745;
+    --tag-color-orange: #fd7e14;
+    --tag-color-red: #d6336c;
+    --tag-color-stateblue: #6a5acd;
+    --tag-color-yellow: #ffc107;
+    }   
+    
     .nav-icons {
     position: fixed;
     top: 50%;
@@ -74,8 +86,7 @@
     
     section.about, table, footer { opacity: 0; transform: translateY(30px); transition: 0.8s; }
     section.about.visible, table.visible, footer.visible { opacity: 1; transform: translateY(0); }
-    section.about { background: white; border-radius: 10px; padding: 25px; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    section.about p { max-width: 400px; margin-left: auto; margin-right: auto; }
+    section.about { background: white; border-radius: 10px; padding: 25px; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 750px; margin: 40px auto; }
     section.about p { font-size: 1.1em; line-height: 1.6em; }
 
     footer { margin-top: 40px; background: #222; color: #ddd; text-align: center; padding: 40px 20px; }
@@ -154,22 +165,60 @@
     margin: 12px 0;
     }
     .tag {
-    background: #eee;
+    color: white;
     border-radius: 6px;
     padding: 4px 10px;
     font-size: 12px;
     font-weight: 600;
     }
-    .tag.red { background: #d6336c; }
-    .tag.green { background: #28a745; }
-    .tag.blue { background: #007bff; }
-    .tag.orange { background: #fd7e14; }
-    .tag.darkgray { background: #a9a9a9; }    
-    .tag.darkmagenta { background: #8b008b; }    
-    .tag.coral { background: #ff7f50; }
-    .tag.yellow { background: #ffff00; }
-    .tag.stateblue { background: #6a5acd; }
 
+    .tag[data-tag="Balance"] {
+    background-color: var(--tag-color-blue);
+    }
+    .tag[data-tag="Content"] {
+    background-color: var(--tag-color-coral);
+    }
+    .tag[data-tag="Core Mechanics"] {
+    background-color: var(--tag-color-darkgray);
+    }
+    .tag[data-tag="Levels"] {
+    background-color: var(--tag-color-darkmagenta);
+    }
+    .tag[data-tag="Live-Ops"] {
+    background-color: var(--tag-color-green);
+    }
+    .tag[data-tag="Monetization"] {
+    background-color: var(--tag-color-orange);
+    }
+    .tag[data-tag="Narrative"] {
+    background-color: var(--tag-color-red);
+    }
+    .tag[data-tag="Systems"] {
+    background-color: var(--tag-color-stateblue);
+    }
+    .tag[data-tag="Technical"] {
+    background-color: var(--tag-color-yellow);
+    }
+
+    .project-link {
+    display: inline-block;
+    margin-top: 15px;
+    padding: 8px 20px;
+    background-color: #667eea;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    text-align: center;
+    transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .project-link:hover {
+    background-color: #5a6ecf;
+    transform: translateY(-2px);
+    color: white;
+    }
+    
     .platforms {
     margin: 0.5rem 0;
     font-size: 1.3rem;
@@ -222,13 +271,33 @@
     <i class="fa-solid fa-mobile" title="Mobile"></i>
     <i class="fa-solid fa-desktop" title="PC"></i>
     </div>
+    <a href="https://appmagic.rocks/google-play/tacticool-tactical-fire-games/com.panzerdog.tacticool" class="project-link" target="_blank">Link</a>
     <div class="tags">
-    <span class="tag blue">Live-Ops</span>
-    <span class="tag green">Monetization</span>
-    <span class="tag yellow">Systems</span>
+    <span class="tag" data-tag="Live-Ops">Live-Ops</span>
+    <span class="tag" data-tag="Monetization">Monetization</span>
+    <span class="tag" data-tag="Systems">Systems</span>
     </div>
-    <p class="description">>Gross Revenue > 50M $, Downloads > 20M.<br>
+    </div>
+    <p class="description">Gross Revenue > 50M $, Downloads > 20M.<br>
     Ranked in Top 50 Grossing Shooters of 2023 & 2024.</p>
+    </div>
+
+    <div class="card">
+    <div class="card-header">
+    <img src="images/icons/saber_kittensvr_icon.jpg" alt="Exploding Kittens VR Icon">
+    <h3>Exploding Kittens VR (Saber Interactive)</h3>
+    </div>
+    <p class="genres">B2P, Casual, Card Games</p>
+    <div class="platforms">
+    <i class="fa-solid fa-vr-cardboard" title="VR"></i>
+    </div>
+    <a href="https://www.meta.com/experiences/exploding-kittens-vr/8200376096660353/" class="project-link" target="_blank">Link</a>
+    <div class="tags">
+    <span class="tag" data-tag="Balance">Balance</span>
+    <span class="tag" data-tag="Content">Content</span>
+    <span class="tag" data-tag="Core-Mechanics">Core-Mechanics</span>
+    <span class="tag" data-tag="Systems">Systems</span>
+    </div>
     </div>
 
   </div>
