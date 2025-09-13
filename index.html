@@ -86,7 +86,7 @@
     
     section.about, table, footer { opacity: 0; transform: translateY(30px); transition: 0.8s; }
     section.about.visible, table.visible, footer.visible { opacity: 1; transform: translateY(0); }
-    section.about { background: white; border-radius: 10px; padding: 25px; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 750px; margin: 40px auto; }
+    section.about { background: white; border-radius: 10px; padding: 25px; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 650px; margin: 40px auto; }
     section.about p { font-size: 1.1em; line-height: 1.6em; }
 
     footer { margin-top: 40px; background: #222; color: #ddd; text-align: center; padding: 40px 20px; }
@@ -125,21 +125,31 @@
       h2 { font-size: 1.5em; }
     }
 
+    section.projects {
+    max-width: 100%; 
+    }
     .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    gap: 30px;
     }
+    
     .card {
     background: #fff;
     border-radius: 12px;
     padding: 20px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 2px solid transparent;
     }
     .card-link:hover .card {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 12px 24px rgba(0,0,0,0.2);
+    border-color: #764ba2;
+    }
+    .description {
+    font-style: italic;
+    opacity: 0.9;
     }
     .card-header {
     display: flex;
@@ -254,7 +264,7 @@
     <img src="images/icons/panzerdog_tacticool_icon.jpg" alt="Tacticool Icon">
     <h3>Tacticool (Panzerdog)</h3>
     </div>
-    <p class="genres">F2P, Midcore, Tactical Shooter</p>
+    <p class="genres">F2P: Midcore, Tactical Shooter</p>
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
     <i class="fa-solid fa-desktop" title="PC"></i>
@@ -276,18 +286,35 @@
     <img src="images/icons/saber_kittensvr_icon.jpg" alt="Exploding Kittens VR Icon">
     <h3>Exploding Kittens VR (Saber Interactive)</h3>
     </div>
-    <p class="genres">B2P, Casual, Card Games</p>
+    <p class="genres">B2P: Casual, Card Games</p>
     <div class="platforms">
     <i class="fa-solid fa-vr-cardboard" title="VR"></i>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
     <span class="tag" data-tag="Content">Content</span>
-    <span class="tag" data-tag="Core-Mechanics">Core-Mechanics</span>
+    <span class="tag" data-tag="Core Mechanics">Core Mechanics</span>
     <span class="tag" data-tag="Systems">Systems</span>
     </div>
     </div>
     </a>
+
+    <a href="https://www.focus-entmt.com/en/games/snowrunner" class="card-link" target="_blank">    
+    <div class="card">
+    <div class="card-header">
+    <img src="images/icons/saber_snowrunner_icon.jpg" alt="Snow Runner Icon">
+    <h3>Snow Runner (Saber Interactive)</h3>
+    </div>
+    <p class="genres">B2P: Off-road simulation</p>
+    <div class="platforms">
+    <i class="fa-solid fa-gamepad" title="Consoles"></i>
+    <i class="fa-solid fa-desktop" title="PC"></i>
+    </div>
+    <div class="tags">
+    <span class="tag" data-tag="Narrative">Narrative</span>
+    </div>
+    </div>
+    </a>    
 
   </div>
   </section>
