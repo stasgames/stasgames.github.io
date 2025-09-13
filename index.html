@@ -110,6 +110,17 @@
     body.dark td a { color: #7da7ff; }
     body.dark footer { background: #111; color: #bbb; }
 
+    body.dark .card {
+    background: #1e1e2f;
+    color: #eee;
+    }
+    body.dark .card-header h3 {
+    color: #fff;
+    }
+    body.dark .meta-info, body.dark .platforms {
+    color: #aaa;
+    }
+
     #themeToggle { position: fixed; top: 20px; right: 20px; background: #667eea; color: white; border: none; padding: 10px 16px; border-radius: 8px; cursor: pointer; font-size: 16px; z-index: 1000; }
     #themeToggle:hover { opacity: 0.8; }
 
@@ -141,6 +152,9 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
     border: 2px solid transparent;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
     }
     .card-link:hover .card {
     transform: translateY(-8px) scale(1.02);
@@ -150,6 +164,8 @@
     .description {
     font-style: italic;
     opacity: 0.9;
+    margin-top: auto; /*OPTIONAL*/
+    padding-top: 15px; /*OPTIONAL*/
     }
     .card-header {
     display: flex;
@@ -225,6 +241,17 @@
     margin-right: 0.5rem;
     transition: color 0.3s ease;
     }
+
+    .meta-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 10px;
+    color: #666;
+    }
+    .meta-info .platforms, .meta-info .genres {
+    margin: 0;
+    }
   </style>
 </head>
 <body>
@@ -265,10 +292,12 @@
     <img src="images/icons/panzerdog_tacticool_icon.jpg" alt="Tacticool Icon">
     <h3>Tacticool (Panzerdog)</h3>
     </div>
-    <p class="genres">F2P: Midcore, Tactical Shooter</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
     <i class="fa-solid fa-desktop" title="PC"></i>
+    </div>
+    <p class="genres">F2P: Midcore, Tactical Shooter</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Live-Ops">Live-Ops</span>
@@ -287,9 +316,11 @@
     <img src="images/icons/saber_kittensvr_icon.jpg" alt="Exploding Kittens VR Icon">
     <h3>Exploding Kittens VR (Saber Interactive)</h3>
     </div>
-    <p class="genres">B2P: Casual, Card Games</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-vr-cardboard" title="VR"></i>
+    </div>
+    <p class="genres">B2P: Casual, Card Games</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -306,10 +337,12 @@
     <img src="images/icons/saber_snowrunner_icon.jpg" alt="Snow Runner Icon">
     <h3>Snow Runner (Saber Interactive)</h3>
     </div>
-    <p class="genres">B2P: Off-road simulation</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-gamepad" title="Consoles"></i>
     <i class="fa-solid fa-desktop" title="PC"></i>
+    </div>
+    <p class="genres">B2P: Off-road simulation</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Narrative">Narrative</span>
@@ -323,9 +356,11 @@
     <img src="images/icons/saber_pinball_icon.jpg" alt="Zen Pinball Masters Icon">
     <h3>Zen Pinball Masters (Saber Interactive)</h3>
     </div>
-    <p class="genres">F2P: Casual, Pinball</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Pinball</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -344,9 +379,11 @@
     <img src="images/icons/danko_match3d_icon.jpg" alt="Match 3D Icon">
     <h3>Match 3D (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Casual, Match 3D</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Match 3D</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -364,10 +401,12 @@
     <img src="images/icons/danko_minigempire_icon.jpg" alt="Mining Empire Icon">
     <h3>Mining Empire (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Casual, Idle Tycoon</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
     </div>
+    <p class="genres">F2P: Casual, Idle Tycoon</p>
+    </div>      
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
     <span class="tag" data-tag="Content">Content</span>
@@ -385,9 +424,11 @@
     <img src="images/icons/danko_hobolife_icon.jpg" alt="Hobo Life Icon">
     <h3>Hobo Life (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Casual, Life Sim</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Life Sim</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -406,9 +447,11 @@
     <img src="images/icons/danko_mysuccessstory_icon.jpg" alt="My Success Story Icon">
     <h3>My Success Story (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Casual, Life Sim</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Life Sim</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -430,9 +473,11 @@
     <img src="images/icons/danko_passionstory_icon.jpg" alt="Passion Story Icon">
     <h3>Passion Story (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Casual, Dating Sim</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Dating Sim</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Levels">Levels</span>
@@ -446,9 +491,11 @@
     <img src="images/icons/danko_fitnesscorp_icon.jpg" alt="Fitness Corp Icon">
     <h3>Fitness Corp (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Casual, Idle Tycoon</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Idle Tycoon</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -467,9 +514,11 @@
     <img src="images/icons/danko_idlefactory_icon.jpg" alt="Idle Factory Corp Icon">
     <h3>Idle Factory Corp (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Hypercasual, Clicker</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Hypercasual, Clicker</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -488,9 +537,11 @@
     <img src="images/icons/danko_idlegymcity_icon.jpg" alt="Idle Gym City Icon">
     <h3>Idle Gym City (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Hypercasual, Clicker</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Hypercasual, Clicker</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -509,9 +560,11 @@
     <img src="images/icons/danko_taptapfactory_icon.jpg" alt="Tap Tap Factory Icon">
     <h3>Tap Tap Factory (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Casual, Idle Tycoon</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Idle Tycoon</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -530,9 +583,11 @@
     <img src="images/icons/danko_deliverycorp_icon.jpg" alt="Delivery Corp Icon">
     <h3>Delivery Corp (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Casual, Clicker</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Clicker</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Content">Content</span>
@@ -548,9 +603,11 @@
     <img src="images/icons/danko_seamerge_icon.jpg" alt="Sea Merge Icon">
     <h3>Sea Merge (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Casual, Merge-3</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Merge-3</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -569,9 +626,11 @@
     <img src="images/icons/danko_interiorstory_icon.jpg" alt="Interior Story Icon">
     <h3>Interior Story (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Casual, Match-3</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Match-3</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -596,9 +655,11 @@
     <img src="images/icons/danko_match3_icon.jpg" alt="Match 3 TV Icon">
     <h3>Match 3 TV (Dankolab)</h3>
     </div>
-    <p class="genres">F2P: Casual, Match-3</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Match-3</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Balance">Balance</span>
@@ -614,9 +675,11 @@
     <img src="images/icons/stegobubbles_baldi_icon.jpg" alt="Baldi’s Basics in Education Icon">
     <h3>Baldi’s Basics in Education (Stegobubbles)</h3>
     </div>
-    <p class="genres">F2P: Casual, Runner</p>
+    <div class="meta-info">
     <div class="platforms">
     <i class="fa-solid fa-mobile" title="Mobile"></i>
+    </div>
+    <p class="genres">F2P: Casual, Runner</p>
     </div>
     <div class="tags">
     <span class="tag" data-tag="Core Mechanics">Core Mechanics</span>
