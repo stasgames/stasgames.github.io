@@ -88,7 +88,7 @@
     
     section.about, section#projects, footer { opacity: 0; transform: translateY(30px); transition: 0.8s; }
     section.about.visible, section#projects.visible, footer.visible { opacity: 1; transform: translateY(0); }
-    section.about { background: white; border-radius: 10px; padding: 10px 25px 10px 25px;; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 1100px; margin: 40px auto; }
+    section.about { background: white; border-radius: 10px; padding: 10px 25px 10px 25px;; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 1200px; margin: 40px auto; }
     section.about p { font-size: 1.1em; line-height: 1.6em; }
 
     footer { margin-top: 40px; background: #222; color: #ddd; text-align: center; padding: 10px 20px 10px 20px; }
@@ -105,7 +105,7 @@
     }
     
     body.dark section.about { background: #1e1e2f; }
-    body.dark section#projects { background: #1e1e2f; color: #eee; }
+    body.dark section#projects { background: #181818; color: #eee; padding: 30px; border-radius: 12px; }
     body.dark th { background: #333366; color: #fff; }
     body.dark tr:nth-child(even) { background: #2a2a3d; }
     body.dark tr:hover { background: #3a3a55; }
@@ -160,7 +160,6 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     height: auto;
     min-height: 0;
     box-sizing: border-box;
@@ -173,10 +172,6 @@
     transform: translateY(-6px) scale(1.01);
     box-shadow: 0 12px 24px rgba(0,0,0,0.2);
     border-color: #764ba2;
-    }
-    .card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
     .description {
     font-style: italic;
@@ -242,6 +237,7 @@
     }
     .tag[data-tag="Technical"] {
     background-color: var(--tag-color-yellow);
+    color: #212529;
     }
 
     .card-link {
@@ -258,9 +254,11 @@
     }
     
     .platforms {
-    margin: 0.5rem 0;
+    display: flex;
+    align-items: center;
     font-size: 1.3rem;
     color: #666;
+    margin: 0;
     }
     .platforms i {
     margin-right: 0.5rem;
@@ -276,6 +274,10 @@
     }
     .meta-info .platforms, .meta-info .genres {
     margin: 0;
+    }
+
+    .push-to-bottom {
+    margin-top: auto;
     }
   </style>
 </head>
@@ -319,8 +321,8 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
-    <i class="fa-solid fa-desktop" title="PC"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
+    <i class="fa-solid fa-desktop" title="PC" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Midcore, Tactical Shooter</p>
     </div>
@@ -343,7 +345,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-vr-cardboard" title="VR"></i>
+    <i class="fa-solid fa-vr-cardboard" title="VR" aria-hidden="true"></i>
     </div>
     <p class="genres">B2P: Casual, Card Games</p>
     </div>
@@ -364,8 +366,8 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-gamepad" title="Consoles"></i>
-    <i class="fa-solid fa-desktop" title="PC"></i>
+    <i class="fa-solid fa-gamepad" title="Consoles" aria-hidden="true"></i>
+    <i class="fa-solid fa-desktop" title="PC" aria-hidden="true"></i>
     </div>
     <p class="genres">B2P: Off-road simulation</p>
     </div>
@@ -383,7 +385,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Pinball</p>
     </div>
@@ -406,7 +408,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Match 3D</p>
     </div>
@@ -428,7 +430,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Idle Tycoon</p>
     </div>      
@@ -451,7 +453,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Life Sim</p>
     </div>
@@ -474,7 +476,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Life Sim</p>
     </div>
@@ -500,7 +502,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Dating Sim</p>
     </div>
@@ -518,7 +520,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Idle Tycoon</p>
     </div>
@@ -541,7 +543,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Hypercasual, Clicker</p>
     </div>
@@ -564,7 +566,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Hypercasual, Clicker</p>
     </div>
@@ -587,7 +589,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Idle Tycoon</p>
     </div>
@@ -610,7 +612,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Clicker</p>
     </div>
@@ -630,7 +632,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Merge-3</p>
     </div>
@@ -653,7 +655,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Match-3</p>
     </div>
@@ -682,7 +684,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Match-3</p>
     </div>
@@ -702,7 +704,7 @@
     </div>
     <div class="meta-info">
     <div class="platforms">
-    <i class="fa-solid fa-mobile" title="Mobile"></i>
+    <i class="fa-solid fa-mobile" title="Mobile" aria-hidden="true"></i>
     </div>
     <p class="genres">F2P: Casual, Runner</p>
     </div>
