@@ -49,6 +49,8 @@
     color: #764ba2;
   }
 
+    *, *::before, *::after { box-sizing: border-box; }
+
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
@@ -84,8 +86,8 @@
     main { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
     h2 { text-align: center; margin-bottom: 20px; font-size: 2em; color: #444; transition: 0.3s; }
     
-    section.about, table, footer { opacity: 0; transform: translateY(30px); transition: 0.8s; }
-    section.about.visible, table.visible, footer.visible { opacity: 1; transform: translateY(0); }
+    section.about, section#projects, footer { opacity: 0; transform: translateY(30px); transition: 0.8s; }
+    section.about.visible, section#projects.visible, footer.visible { opacity: 1; transform: translateY(0); }
     section.about { background: white; border-radius: 10px; padding: 10px 25px 10px 25px;; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 1000px; margin: 40px auto; }
     section.about p { font-size: 1.1em; line-height: 1.6em; }
 
@@ -103,7 +105,7 @@
     }
     
     body.dark section.about { background: #1e1e2f; }
-    body.dark table { background: #1e1e2f; color: #eee; }
+    body.dark section#projects { background: #1e1e2f; color: #eee; }
     body.dark th { background: #333366; color: #fff; }
     body.dark tr:nth-child(even) { background: #2a2a3d; }
     body.dark tr:hover { background: #3a3a55; }
@@ -128,7 +130,7 @@
       header img.profile { width: 120px; height: 120px; }
       header img.logo { width: 60px; }
       .socials a { font-size: 1.5em; margin: 0 8px; }
-      table th, table td { padding: 10px; font-size: 0.9em; }
+      section#projects th, section#projects td { padding: 10px; font-size: 0.9em; }
     }
     @media (max-width: 480px) {
       header h1 { font-size: 1.8em; }
@@ -144,6 +146,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 30px;
+    align-items: start;
+    grid-auto-rows: auto;
     }
     
     .card {
@@ -155,10 +159,16 @@
     border: 2px solid transparent;
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: auto;
+    min-height: 0;
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
     }
     .card-link:hover .card {
-    transform: translateY(-8px) scale(1.02);
+    z-index: 5;
+    transform: translateY(-6px) scale(1.01);
     box-shadow: 0 12px 24px rgba(0,0,0,0.2);
     border-color: #764ba2;
     }
@@ -177,6 +187,8 @@
     height: 64px;
     border-radius: 50%;
     object-fit: cover;
+    display: block;
+    max-width: 100%;
     box-shadow: 0 3px 8px rgba(0,0,0,0.15);
     }
     .card-header h3 {
@@ -230,6 +242,11 @@
     text-decoration: none;
     color: inherit;
     display: block;
+    }
+
+    .projects-grid > .card-link {
+    display: block;
+    align-self: start;
     }
     
     .platforms {
