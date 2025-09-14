@@ -8,7 +8,7 @@
   <style>
     :root {
     --tag-color-blue: #007bff;
-    --tag-color-coral: #ff7f50;    
+    --tag-color-aqua: #00FFFF;    
     --tag-color-darkmagenta: #8b008b;
     --tag-color-darkolive: #556B2F;
     --tag-color-green: #28a745;
@@ -88,7 +88,7 @@
     
     section.about, section#projects, footer { opacity: 0; transform: translateY(30px); transition: 0.8s; }
     section.about.visible, section#projects.visible, footer.visible { opacity: 1; transform: translateY(0); }
-    section.about { background: white; border-radius: 10px; padding: 10px 25px 10px 25px;; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 1000px; margin: 20px auto; }
+    section.about { background: white; border-radius: 10px; padding: 10px 25px 10px 25px;; margin-bottom: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); max-width: 1050px; margin: 20px auto; }
     section.about p { font-size: 1.1em; line-height: 1.6em; }
 
     footer { margin-top: 40px; background: #222; color: #ddd; text-align: center; padding: 10px 20px 10px 20px; }
@@ -105,7 +105,7 @@
     }
     
     body.dark section.about { background: #1e1e2f; }
-    body.dark section#projects { background: #181818; color: #eee; padding: 30px; border-radius: 12px; }
+    body.dark section#projects { background-color: #1a1a1a; box-shadow: none; }
     body.dark th { background: #333366; color: #fff; }
     body.dark tr:nth-child(even) { background: #2a2a3d; }
     body.dark tr:hover { background: #3a3a55; }
@@ -140,7 +140,12 @@
 
     section#projects {
     max-width: 100%;
-    margin: 0;
+    margin: 40px 0;
+    padding: 30px;
+    border-radius: 12px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transition: background-color 0.4s;
     }
     .projects-grid {
     display: grid;
@@ -215,7 +220,8 @@
     background-color: var(--tag-color-blue);
     }
     .tag[data-tag="Content"] {
-    background-color: var(--tag-color-coral);
+    background-color: var(--tag-color-aqua);
+    color: #212529;
     }
     .tag[data-tag="Core Mechanics"] {
     background-color: var(--tag-color-darkmagenta);
@@ -331,8 +337,7 @@
     <span class="tag" data-tag="Monetization">Monetization</span>
     <span class="tag" data-tag="Systems">Systems</span>
     </div>
-    <p class="description">Revenue > $50M<br>
-    Downloads > 20M<br>
+    <p class="description">Revenue > $50M, Downloads > 20M<br>
     Top 50 Grossing Shooters of 2023 & 2024</p>
     </div>
     </a>
@@ -488,8 +493,7 @@
     <span class="tag" data-tag="Narrative">Narrative</span>
     <span class="tag" data-tag="Systems">Systems</span>
     </div>
-    <p class="description">Revenue > $2M<br>
-    Downloads > 5M<br>
+    <p class="description">Revenue > $2M, Downloads > 5M<br>
     Top 100 Grossing Tycoons of 2023 & 2024</p>
     </div>
     </a>
@@ -670,8 +674,7 @@
     <span class="tag" data-tag="Systems">Systems</span>
     <span class="tag" data-tag="Technical">Technical</span>
     </div>
-    <p class="description">Revenue > $5M<br>
-    Downloads > 2M<br>
+    <p class="description">Revenue > $5M, Downloads > 2M<br>
     Top 100 Grossing Match-3 for several years</p>
     </div>
     </a>
