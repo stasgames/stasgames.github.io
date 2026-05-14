@@ -1,0 +1,689 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lootbox Calculator by Stas Solomko & Claude</title>
+
+  <script src="https://kit.fontawesome.com/58116ba1b7.js" crossorigin="anonymous"></script>
+  <style>
+    :root {
+      --accent: #667eea;
+      --accent2: #764ba2;
+      --tag-color-blue: #007bff;
+      --tag-color-green: #28a745;
+      --tag-color-orange: #fd7e14;
+      --tag-color-stateblue: #6a5acd;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: #f8fafc;
+      color: #333;
+      transition: background 0.4s, color 0.4s;
+      scroll-behavior: smooth;
+    }
+    body.dark { background: #121212; color: #eee; }
+
+    /* ── NAV ── */
+    .nav-icons {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: rgba(255,255,255,0.85);
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      z-index: 1000;
+      transition: background 0.3s;
+    }
+    .nav-icons:hover { background: rgba(255,255,255,1); }
+    body.dark .nav-icons { background: rgba(30,30,50,0.9); }
+    body.dark .nav-icons:hover { background: rgba(30,30,50,1); }
+    .nav-icons .nav-link { font-size: 1.5em; color: #555; transition: color 0.3s, transform 0.2s; }
+    .nav-icons .nav-link:hover { color: var(--accent); transform: scale(1.2); }
+    .nav-icons .active { color: var(--accent2); }
+    body.dark .nav-icons .nav-link { color: #aaa; }
+
+    /* ── BACK BUTTON ── */
+    #backBtn {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      z-index: 1000;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: opacity 0.2s;
+    }
+    #backBtn:hover { opacity: 0.85; }
+
+    #themeToggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      z-index: 1000;
+    }
+    #themeToggle:hover { opacity: 0.8; }
+
+    /* ── HEADER ── */
+    header {
+      text-align: center;
+      background:
+        linear-gradient(135deg, rgba(102,126,234,0.75), rgba(118,75,162,0.65)),
+        url('images/banner.webp');
+      background-size: cover;
+      background-position: center;
+      color: white;
+      padding: 70px 20px 45px;
+      opacity: 0;
+      transform: translateY(-30px);
+      transition: 0.8s;
+    }
+    header.visible { opacity: 1; transform: translateY(0); }
+    body.dark header {
+      background:
+        linear-gradient(135deg, rgba(0,0,0,0.55), rgba(20,0,30,0.65)),
+        url('images/banner.webp');
+      background-size: cover;
+      background-position: center;
+    }
+    header .icon-wrap {
+      width: 90px; height: 90px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      border: 3px solid rgba(255,255,255,0.6);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4em;
+      margin-bottom: 16px;
+    }
+    header h1 { margin: 0 0 8px; font-size: 2.4em; }
+    header p { font-size: 1.15em; opacity: 0.9; margin: 0; }
+
+    /* ── MAIN ── */
+    main { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+
+    section.calc-section {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: 0.8s;
+    }
+    section.calc-section.visible { opacity: 1; transform: translateY(0); }
+    body.dark section.calc-section { background: #1e1e2f; }
+
+    h2 {
+      text-align: center;
+      margin: 0 0 6px;
+      font-size: 1.8em;
+      color: #444;
+    }
+    body.dark h2 { color: #ccc; }
+    .section-desc {
+      text-align: center;
+      color: #666;
+      margin: 0 0 24px;
+      font-size: 0.97em;
+    }
+    body.dark .section-desc { color: #999; }
+
+    /* ── TABS ── */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 12px;
+    }
+    body.dark .tabs { border-color: #333; }
+    .tab {
+      padding: 8px 18px;
+      border: 1.5px solid #ddd;
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      color: #666;
+      transition: all 0.2s;
+    }
+    .tab:hover { border-color: var(--accent); color: var(--accent); }
+    .tab.active {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      border-color: transparent;
+      font-weight: 600;
+    }
+    body.dark .tab { border-color: #444; color: #aaa; }
+    body.dark .tab:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── MODE HINT ── */
+    .mode-hint {
+      background: #f0f4ff;
+      border-left: 3px solid var(--accent);
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      font-size: 13px;
+      color: #555;
+      margin-bottom: 20px;
+      line-height: 1.5;
+    }
+    body.dark .mode-hint { background: #1a1a35; color: #aaa; border-color: var(--accent2); }
+
+    /* ── ITEMS TABLE ── */
+    .items-grid { margin-bottom: 8px; }
+    .items-header {
+      display: grid;
+      gap: 8px;
+      font-size: 11px;
+      font-weight: 600;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      padding: 0 4px 6px;
+      border-bottom: 1px solid #eee;
+      margin-bottom: 6px;
+    }
+    body.dark .items-header { border-color: #333; color: #666; }
+    .hdr3 { grid-template-columns: 1fr 90px 80px 34px; }
+    .hdr4 { grid-template-columns: 1fr 90px 80px 120px 34px; }
+    .hdr5 { grid-template-columns: 1fr 90px 80px 50px 90px 90px 34px; }
+
+    .item-row {
+      display: grid;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .item-row input[type="text"],
+    .item-row input[type="number"] {
+      width: 100%;
+      padding: 6px 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      background: white;
+      color: #333;
+      transition: border-color 0.2s;
+    }
+    .item-row input:focus { outline: none; border-color: var(--accent); }
+    body.dark .item-row input { background: #2a2a3d; border-color: #444; color: #eee; }
+    body.dark .item-row input:focus { border-color: var(--accent); }
+    .item-row input:disabled { opacity: 0.35; }
+
+    .prob-cell {
+      font-size: 13px;
+      color: #888;
+      text-align: right;
+      padding: 6px 4px;
+      font-variant-numeric: tabular-nums;
+    }
+    body.dark .prob-cell { color: #666; }
+
+    .pity-check {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      font-size: 12px;
+      color: #666;
+      cursor: pointer;
+    }
+    body.dark .pity-check { color: #888; }
+
+    .add-btn {
+      width: 100%;
+      padding: 8px;
+      border: 1.5px dashed #ccc;
+      border-radius: 8px;
+      background: transparent;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: inherit;
+      color: #999;
+      margin-top: 4px;
+      transition: all 0.2s;
+    }
+    .add-btn:hover { border-color: var(--accent); color: var(--accent); background: #f5f5ff; }
+    body.dark .add-btn { border-color: #444; color: #666; }
+    body.dark .add-btn:hover { background: #1a1a30; }
+
+    .del-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: #ccc;
+      font-size: 15px;
+      padding: 4px;
+      border-radius: 4px;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .del-btn:hover { color: #e74c3c; }
+
+    .warn-note {
+      font-size: 11px;
+      color: #f39c12;
+      margin: 4px 0 12px;
+    }
+
+    /* ── CONTROLS ── */
+    .ctrl-row {
+      display: flex;
+      gap: 16px;
+      align-items: flex-end;
+      flex-wrap: wrap;
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: 1px solid #eee;
+    }
+    body.dark .ctrl-row { border-color: #333; }
+    .ctrl-group { display: flex; flex-direction: column; gap: 4px; }
+    .ctrl-group label { font-size: 12px; color: #888; font-weight: 500; }
+    .ctrl-group input {
+      width: 130px;
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      background: white;
+      color: #333;
+    }
+    .ctrl-group input:focus { outline: none; border-color: var(--accent); }
+    body.dark .ctrl-group input { background: #2a2a3d; border-color: #444; color: #eee; }
+
+    .run-btn {
+      padding: 9px 24px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: inherit;
+      font-weight: 600;
+      transition: opacity 0.2s, transform 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .run-btn:hover { opacity: 0.88; }
+    .run-btn:active { transform: scale(0.97); }
+    .run-btn.loading { opacity: 0.6; pointer-events: none; }
+
+    /* ── RESULTS ── */
+    .results { margin-top: 20px; }
+    .results-meta {
+      font-size: 12px;
+      color: #999;
+      margin-bottom: 10px;
+    }
+    table.res-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+    .res-table th {
+      text-align: left;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      color: #999;
+      padding: 6px 10px;
+      border-bottom: 1px solid #eee;
+    }
+    body.dark .res-table th { border-color: #333; color: #666; }
+    .res-table td { padding: 7px 10px; border-bottom: 1px solid #f0f0f0; }
+    body.dark .res-table td { border-color: #2a2a3a; }
+    .res-table tr:last-child td { border-bottom: none; }
+    .res-table tr:hover td { background: #fafafa; }
+    body.dark .res-table tr:hover td { background: #22223a; }
+
+    .bar-cell { padding: 7px 10px; }
+    .bar-wrap { display: flex; align-items: center; gap: 8px; }
+    .bar-bg {
+      flex: 1;
+      height: 6px;
+      background: #eee;
+      border-radius: 3px;
+      overflow: hidden;
+    }
+    body.dark .bar-bg { background: #333; }
+    .bar-fill {
+      height: 100%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+    }
+    .stat-max {
+      font-size: 11px;
+      color: #bbb;
+      white-space: nowrap;
+      min-width: 28px;
+      text-align: right;
+    }
+    .val-mean { font-weight: 600; color: var(--accent2); }
+    body.dark .val-mean { color: #a07fe0; }
+
+    /* ── FOOTER ── */
+    footer {
+      margin-top: 40px;
+      background: #222;
+      color: #ddd;
+      text-align: center;
+      padding: 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: 0.8s;
+    }
+    footer.visible { opacity: 1; transform: translateY(0); }
+    footer .socials a { color: #ddd; margin: 0 10px; font-size: 1.5em; transition: 0.3s; }
+    footer .socials a:hover { transform: scale(1.2); opacity: 0.8; }
+    footer p { margin: 10px 0 0; font-size: 13px; color: #777; }
+
+    @media (max-width: 600px) {
+      .hdr5 { grid-template-columns: 1fr 70px 60px 40px 70px 70px 28px; }
+      .tabs { gap: 5px; }
+      .tab { padding: 6px 12px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="index.html" id="backBtn"><i class="fa-solid fa-arrow-left"></i> Portfolio</a>
+<button id="themeToggle">🌙 Theme</button>
+
+<nav class="nav-icons">
+  <a href="#calc" class="nav-link" title="Calculator"><i class="fa-solid fa-dice"></i></a>
+  <a href="#footer" class="nav-link" title="Contacts"><i class="fa-solid fa-comments"></i></a>
+</nav>
+
+<header id="header">
+  <div class="icon-wrap"><i class="fa-solid fa-box-open"></i></div>
+  <h1>Lootbox Calculator</h1>
+  <p>Monte Carlo drop rate simulator · Runs entirely in your browser</p>
+</header>
+
+<main>
+  <section class="calc-section" id="calc">
+    <h2>DROP RATE SIMULATOR</h2>
+    <p class="section-desc">Set item weights, pick a mode, run the simulation — get median, average and 95th percentile results.</p>
+
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('fixed')"><i class="fa-solid fa-lock"></i> Fixed Weights</button>
+      <button class="tab" onclick="switchTab('remove')"><i class="fa-solid fa-ban"></i> Remove on Drop</button>
+      <button class="tab" onclick="switchTab('pity')"><i class="fa-solid fa-chart-line"></i> Pity System</button>
+    </div>
+
+    <!-- FIXED -->
+    <div id="tab-fixed">
+      <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;Weights stay constant. Every box opening is an independent event. Standard gacha behaviour.</p>
+      <div class="items-grid">
+        <div class="items-header hdr3"><span>Item</span><span>Weight</span><span>Chance</span><span></span></div>
+        <div id="rows-fixed"></div>
+        <button class="add-btn" onclick="addItem('fixed')"><i class="fa-solid fa-plus"></i> Add item</button>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-group"><label>Simulations</label><input id="iters-fixed" type="number" value="10000" min="100" max="100000" step="1000"></div>
+        <button class="run-btn" id="btn-fixed" onclick="runFixed()"><i class="fa-solid fa-play"></i> Run</button>
+      </div>
+      <div id="res-fixed" class="results"></div>
+    </div>
+
+    <!-- REMOVE -->
+    <div id="tab-remove" style="display:none">
+      <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;After an item drops it is removed from the pool. Guarantees all items in finite attempts — odds shift every opening.</p>
+      <div class="items-grid">
+        <div class="items-header hdr3"><span>Item</span><span>Weight</span><span>Chance*</span><span></span></div>
+        <div id="rows-remove"></div>
+        <button class="add-btn" onclick="addItem('remove')"><i class="fa-solid fa-plus"></i> Add item</button>
+        <p class="warn-note"><i class="fa-solid fa-triangle-exclamation"></i> Chance recalculates each opening based on remaining items.</p>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-group"><label>Simulations</label><input id="iters-remove" type="number" value="5000" min="100" max="50000" step="1000"></div>
+        <button class="run-btn" id="btn-remove" onclick="runRemove()"><i class="fa-solid fa-play"></i> Run</button>
+      </div>
+      <div id="res-remove" class="results"></div>
+    </div>
+
+    <!-- PITY -->
+    <div id="tab-pity" style="display:none">
+      <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;Enable pity on an item: every N failed attempts its weight increases by the set amount. Other items' weights decrease proportionally.</p>
+      <div class="items-grid">
+        <div class="items-header hdr5"><span>Item</span><span>Base weight</span><span>Chance</span><span>Pity</span><span>Step (attempts)</span><span>Weight gain</span><span></span></div>
+        <div id="rows-pity"></div>
+        <button class="add-btn" onclick="addItem('pity')"><i class="fa-solid fa-plus"></i> Add item</button>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-group"><label>Simulations</label><input id="iters-pity" type="number" value="5000" min="100" max="50000" step="1000"></div>
+        <button class="run-btn" id="btn-pity" onclick="runPity()"><i class="fa-solid fa-play"></i> Run</button>
+      </div>
+      <div id="res-pity" class="results"></div>
+    </div>
+  </section>
+</main>
+
+<footer id="footer">
+  <h2 style="color:#ddd;margin-bottom:14px">CONTACTS</h2>
+  <div class="socials">
+    <a href="mailto:solomko.stas@gmail.com"><i class="fas fa-envelope"></i></a>
+    <a href="https://t.me/stas_solo" target="_blank"><i class="fab fa-telegram"></i></a>
+    <a href="https://www.linkedin.com/in/solomkostas/" target="_blank"><i class="fab fa-linkedin"></i></a>
+  </div>
+  <p>© 2025 Stas Solomko · <a href="index.html" style="color:#667eea">Back to Portfolio</a></p>
+</footer>
+
+<script>
+const state = {
+  fixed:  [{name:'Legendary Sword',w:1},{name:'Rare Shield',w:5},{name:'Common Helmet',w:20},{name:'Potion',w:74}],
+  remove: [{name:'Legendary Sword',w:1},{name:'Rare Shield',w:5},{name:'Common Helmet',w:20},{name:'Potion',w:74}],
+  pity:   [
+    {name:'Legendary Sword',w:1,pity:true,step:10,inc:2},
+    {name:'Rare Shield',w:5,pity:false,step:0,inc:0},
+    {name:'Common Helmet',w:20,pity:false,step:0,inc:0},
+    {name:'Potion',w:74,pity:false,step:0,inc:0}
+  ]
+};
+
+function totalW(items){ return items.reduce((s,it)=>s+(parseFloat(it.w)||0),0); }
+
+function renderItems(mode){
+  const cont = document.getElementById('rows-'+mode);
+  const items = state[mode];
+  const tw = totalW(items);
+  let html = '';
+  items.forEach((it,i)=>{
+    const prob = tw>0?((it.w/tw)*100).toFixed(2):'0.00';
+    if(mode==='fixed'||mode==='remove'){
+      html+=`<div class="item-row hdr3">
+        <input type="text" value="${escH(it.name)}" oninput="state['${mode}'][${i}].name=this.value">
+        <input type="number" value="${it.w}" min="0" step="any" oninput="state['${mode}'][${i}].w=parseFloat(this.value)||0;renderItems('${mode}')">
+        <div class="prob-cell">${prob}%</div>
+        <button class="del-btn" onclick="delItem('${mode}',${i})" aria-label="delete"><i class="fa-solid fa-xmark"></i></button>
+      </div>`;
+    } else {
+      html+=`<div class="item-row hdr5">
+        <input type="text" value="${escH(it.name)}" oninput="state.pity[${i}].name=this.value">
+        <input type="number" value="${it.w}" min="0" step="any" oninput="state.pity[${i}].w=parseFloat(this.value)||0;renderItems('pity')">
+        <div class="prob-cell">${prob}%</div>
+        <label class="pity-check"><input type="checkbox" ${it.pity?'checked':''} onchange="state.pity[${i}].pity=this.checked;renderItems('pity')"> on</label>
+        <input type="number" value="${it.step||0}" min="0" oninput="state.pity[${i}].step=parseInt(this.value)||0" ${!it.pity?'disabled':''}>
+        <input type="number" value="${it.inc||0}" min="0" step="any" oninput="state.pity[${i}].inc=parseFloat(this.value)||0" ${!it.pity?'disabled':''}>
+        <button class="del-btn" onclick="delItem('pity',${i})" aria-label="delete"><i class="fa-solid fa-xmark"></i></button>
+      </div>`;
+    }
+  });
+  cont.innerHTML = html;
+}
+
+function escH(s){ return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function addItem(m){ state[m].push(m==='pity'?{name:'New Item',w:1,pity:false,step:10,inc:1}:{name:'New Item',w:1}); renderItems(m); }
+function delItem(m,i){ if(state[m].length<=1)return; state[m].splice(i,1); renderItems(m); }
+
+function switchTab(t){
+  ['fixed','remove','pity'].forEach(k=>{ document.getElementById('tab-'+k).style.display=k===t?'':'none'; });
+  document.querySelectorAll('.tab').forEach((b,i)=>{ b.classList.toggle('active',['fixed','remove','pity'][i]===t); });
+}
+
+function wRand(pool){
+  const tw=pool.reduce((s,x)=>s+x.w,0);
+  let r=Math.random()*tw,c=0;
+  for(const x of pool){ c+=x.w; if(r<c) return x.idx; }
+  return pool[pool.length-1].idx;
+}
+
+function setLoading(id,on){ const b=document.getElementById(id); b.classList.toggle('loading',on); b.innerHTML=on?'<i class="fa-solid fa-spinner fa-spin"></i> Running…':'<i class="fa-solid fa-play"></i> Run'; }
+
+function runFixed(){
+  const items=state.fixed; const iters=parseInt(document.getElementById('iters-fixed').value)||10000;
+  setLoading('btn-fixed',true);
+  setTimeout(()=>{
+    const n=items.length; const pool=items.map((it,i)=>({idx:i,w:parseFloat(it.w)||0}));
+    const tries=items.map(()=>[]);
+    for(let s=0;s<iters;s++){
+      const got=new Array(n).fill(false); let t=0;
+      while(got.some(x=>!x)){ t++; const idx=wRand(pool); if(!got[idx]){got[idx]=true;tries[idx].push(t);} }
+    }
+    showResults('res-fixed',items,tries,iters,'Fixed Weights');
+    setLoading('btn-fixed',false);
+  },10);
+}
+
+function runRemove(){
+  const items=state.remove; const iters=parseInt(document.getElementById('iters-remove').value)||5000;
+  setLoading('btn-remove',true);
+  setTimeout(()=>{
+    const n=items.length; const base=items.map((it,i)=>({idx:i,w:parseFloat(it.w)||0}));
+    const tries=items.map(()=>[]);
+    for(let s=0;s<iters;s++){
+      let pool=base.map(x=>({...x})); let t=0;
+      while(pool.length>0){ t++; const idx=wRand(pool); tries[idx].push(t); pool=pool.filter(x=>x.idx!==idx); }
+    }
+    showResults('res-remove',items,tries,iters,'Remove on Drop');
+    setLoading('btn-remove',false);
+  },10);
+}
+
+function runPity(){
+  const items=state.pity; const iters=parseInt(document.getElementById('iters-pity').value)||5000;
+  setLoading('btn-pity',true);
+  setTimeout(()=>{
+    const n=items.length; const baseW=items.map(it=>parseFloat(it.w)||0);
+    const tries=items.map(()=>[]);
+    for(let s=0;s<iters;s++){
+      const got=new Array(n).fill(false); const miss=new Array(n).fill(0); let t=0;
+      while(got.some(x=>!x)){
+        t++;
+        const cw=baseW.map((w,i)=>{
+          if(got[i]) return 0;
+          if(!items[i].pity||!items[i].step||items[i].step<=0) return w;
+          return w+Math.floor(miss[i]/items[i].step)*(parseFloat(items[i].inc)||0);
+        });
+        const tw=cw.reduce((s,w)=>s+w,0); if(tw<=0) break;
+        let r=Math.random()*tw,c=0,idx=-1;
+        for(let j=0;j<n;j++){c+=cw[j];if(r<c){idx=j;break;}} if(idx<0)idx=n-1;
+        if(!got[idx]){got[idx]=true;tries[idx].push(t);miss[idx]=0;}
+        for(let j=0;j<n;j++) if(!got[j]&&j!==idx) miss[j]++;
+      }
+    }
+    showResults('res-pity',items,tries,iters,'Pity System');
+    setLoading('btn-pity',false);
+  },10);
+}
+
+function showResults(contId,items,tries,iters,modeLabel){
+  const stats=tries.map((arr,i)=>{
+    if(!arr.length) return {name:items[i].name||'Item '+(i+1),mean:0,p50:0,p95:0,min:0,max:0};
+    const s=[...arr].sort((a,b)=>a-b);
+    return {
+      name:items[i].name||'Item '+(i+1),
+      mean:arr.reduce((x,y)=>x+y,0)/arr.length,
+      p50:s[Math.floor(s.length*.50)],
+      p95:s[Math.floor(s.length*.95)],
+      min:s[0], max:s[s.length-1]
+    };
+  });
+  const maxMean=Math.max(...stats.map(s=>s.mean),1);
+  let html=`<p class="results-meta">${iters.toLocaleString()} simulations · Mode: <strong>${modeLabel}</strong></p>
+  <table class="res-table">
+  <thead><tr>
+    <th>Item</th><th>Average</th><th>Median</th><th>95th pct</th><th>Min</th><th>Distribution (max)</th>
+  </tr></thead><tbody>`;
+  stats.forEach(s=>{
+    const pct=Math.min(s.mean/maxMean,1)*100;
+    html+=`<tr>
+      <td>${escH(s.name)}</td>
+      <td class="val-mean">${s.mean.toFixed(1)}</td>
+      <td>${s.p50}</td>
+      <td>${s.p95}</td>
+      <td>${s.min}</td>
+      <td class="bar-cell"><div class="bar-wrap">
+        <div class="bar-bg"><div class="bar-fill" style="width:${pct.toFixed(1)}%"></div></div>
+        <span class="stat-max">${s.max}</span>
+      </div></td>
+    </tr>`;
+  });
+  html+='</tbody></table>';
+  document.getElementById(contId).innerHTML=html;
+}
+
+/* ── THEME ── */
+const toggle=document.getElementById('themeToggle');
+toggle.addEventListener('click',()=>{
+  document.body.classList.toggle('dark');
+  toggle.textContent=document.body.classList.contains('dark')?'☀️ Light Theme':'🌙 Dark Theme';
+});
+
+/* ── SCROLL ANIMATIONS ── */
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+},{threshold:0.1});
+document.querySelectorAll('header, section.calc-section, footer').forEach(el=>observer.observe(el));
+
+/* ── ACTIVE NAV ── */
+const navLinks=document.querySelectorAll('.nav-link');
+window.addEventListener('scroll',()=>{
+  let cur='';
+  document.querySelectorAll('section,header,footer').forEach(sec=>{
+    if(scrollY>=sec.offsetTop-100) cur=sec.getAttribute('id');
+  });
+  navLinks.forEach(l=>{ l.classList.toggle('active', l.getAttribute('href')==='#'+cur); });
+});
+
+renderItems('fixed');
+renderItems('remove');
+renderItems('pity');
+</script>
+</body>
+</html>
