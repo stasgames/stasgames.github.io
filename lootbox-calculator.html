@@ -124,8 +124,6 @@
       background-size: cover;
       background-position: center;
     }
-    header h1 { margin: 0 0 8px; font-size: 2.4em; }
-    header p { font-size: 1.15em; opacity: 0.9; margin: 0; }
     .socials { margin: 25px 0; }
     .socials a { margin: 0 12px; font-size: 1.8em; color: white; transition: 0.3s; }
     .socials a:hover { transform: scale(1.2); opacity: 0.8; }
@@ -147,12 +145,6 @@
     section.calc-section.visible { opacity: 1; transform: translateY(0); }
     body.dark section.calc-section { background: #1e1e2f; }
 
-    h2 {
-      text-align: center;
-      margin: 0 0 6px;
-      font-size: 1.8em;
-      color: #444;
-    }
     body.dark h2 { color: #ccc; }
     .section-desc {
       text-align: center;
@@ -410,6 +402,9 @@
       color: #ddd;
       text-align: center;
       padding: 10px 20px 10px 20px;
+      opacity: 0;
+      transform: translateY(30px);
+      transition: 0.8s;
     }
     footer img { max-height: 400px; width: auto; max-width: 100%; border-radius: 12px; margin: 20px auto; display: block; }
     footer.visible { opacity: 1; transform: translateY(0); }
