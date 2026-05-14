@@ -106,12 +106,17 @@
       background-size: cover;
       background-position: center;
       color: white;
-      padding: 70px 20px 45px;
+      padding: 60px 20px 40px;
+      position: relative;
       opacity: 0;
       transform: translateY(-30px);
       transition: 0.8s;
     }
     header.visible { opacity: 1; transform: translateY(0); }
+    header img.profile { border-radius: 50%; width: 160px; height: 160px; object-fit: cover; border: 5px solid white; box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    header img.logo { width: 80px; margin-top: 20px; }
+    header h1 { margin: 20px 0 10px; font-size: 2.5em; }
+    header p { font-size: 1.2em; margin: 0; opacity: 0.9; }
     body.dark header {
       background:
         linear-gradient(135deg, rgba(0,0,0,0.55), rgba(20,0,30,0.65)),
@@ -411,7 +416,7 @@
       background: #222;
       color: #ddd;
       text-align: center;
-      padding: 20px;
+      padding: 10px 20px 10px 20px;
       opacity: 0;
       transform: translateY(30px);
       transition: 0.8s;
@@ -447,7 +452,7 @@
 <main>
   <section class="calc-section" id="calc">
     <h2>DROP RATE SIMULATOR</h2>
-    <p class="section-desc">Set item weights, pick a mode, run the simulation — get median, average and 95th percentile results.</p>
+    <p class="section-desc">Set item weights, pick a mode, run the simulation - get median, average and 95th percentile results.</p>
 
     <div class="tabs">
       <button class="tab active" onclick="switchTab('fixed')"><i class="fa-solid fa-lock"></i> Fixed Weights</button>
@@ -472,7 +477,7 @@
 
     <!-- REMOVE -->
     <div id="tab-remove" style="display:none">
-      <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;After an item drops it is removed from the pool. Guarantees all items in finite attempts — odds shift every opening.</p>
+      <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;After an item drops it is removed from the pool. Guarantees all items in finite attempts - odds shift every opening.</p>
       <div class="items-grid">
         <div class="items-header hdr3"><span>Item</span><span>Weight</span><span>Chance*</span><span></span></div>
         <div id="rows-remove"></div>
@@ -504,7 +509,7 @@
 </main>
 
 <footer id="footer">
-  <h2 style="color:#ddd;margin-bottom:14px">CONTACTS</h2>
+  <h2>MY CONTACTS</h2>
   <div class="socials">
     <a href="mailto:solomko.stas@gmail.com"><i class="fas fa-envelope"></i></a>
     <a href="https://t.me/stas_solo" target="_blank"><i class="fab fa-telegram"></i></a>
