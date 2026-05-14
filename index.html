@@ -307,6 +307,7 @@
 <nav class="nav-icons">
   <a href="#about" class="nav-link"><i class="fa-solid fa-circle-user"></i></a>
   <a href="#projects" class="nav-link"><i class="fa-solid fa-briefcase"></i></a>
+  <a href="#tools" class="nav-link"><i class="fa-solid fa-flask"></i></a>
   <a href="#footer" class="nav-link"><i class="fa-solid fa-comments"></i></a>
 </nav>
 
@@ -757,7 +758,46 @@
   </div>
   </section>
 </main>
+  
+<section id="tools" style="max-width:100%;margin:40px 0;padding:30px;border-radius:12px;background-color:#fff;box-shadow:0 4px 12px rgba(0,0,0,0.05);transition:background-color 0.4s;opacity:0;transform:translateY(30px);transition:0.8s;">
+  <h2>TOOLS</h2>
+  <div class="projects-grid">
 
+    <a href="lootbox-calculator.html" class="card-link">
+      <div class="card">
+        <div class="card-header">
+          <img src="images/icons/tools_lootbox_icon.webp" alt="Lootbox Calculator Icon" loading="lazy" onerror="this.style.display='none'">
+          <h3>Lootbox Calculator</h3>
+        </div>
+        <div class="meta-info">
+          <p class="genres">Monte Carlo drop rate simulator</p>
+        </div>
+        <p class="description">Fixed weights · Remove on drop · Pity system</p>
+      </div>
+    </a>
+
+    <div class="card-link" style="cursor:default;">
+      <div class="card" style="opacity:0.45;">
+        <div class="card-header">
+          <div style="width:64px;height:64px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-size:1.6em;">🔒</div>
+          <h3 style="color:#aaa;">Coming Soon</h3>
+        </div>
+        <div class="meta-info"><p class="genres">—</p></div>
+      </div>
+    </div>
+
+    <div class="card-link" style="cursor:default;">
+      <div class="card" style="opacity:0.45;">
+        <div class="card-header">
+          <div style="width:64px;height:64px;border-radius:50%;background:#eee;display:flex;align-items:center;justify-content:center;font-size:1.6em;">🔒</div>
+          <h3 style="color:#aaa;">Coming Soon</h3>
+        </div>
+        <div class="meta-info"><p class="genres">—</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+  
 <footer id="footer">
   <h2>MY CONTACTS</h2>
   <div class="socials">
@@ -788,7 +828,7 @@
     });
   }, { threshold: 0.1 });
 
-  [header, about, projects, footer].forEach(el => observer.observe(el));
+  [header, about, projects, tools, footer].forEach(el => observer.observe(el));
 </script>
 
 <script>
