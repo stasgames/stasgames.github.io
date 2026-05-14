@@ -119,21 +119,10 @@
     header p { font-size: 1.2em; margin: 0; opacity: 0.9; }
     body.dark header {
       background:
-        linear-gradient(135deg, rgba(0,0,0,0.55), rgba(20,0,30,0.65)),
+        linear-gradient(135deg, rgba(0, 0, 0, 0.5), rgba(20, 0, 30, 0.6)),
         url('images/banner.webp');
       background-size: cover;
       background-position: center;
-    }
-    header .icon-wrap {
-      width: 90px; height: 90px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.15);
-      border: 3px solid rgba(255,255,255,0.6);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 2.4em;
-      margin-bottom: 16px;
     }
     header h1 { margin: 0 0 8px; font-size: 2.4em; }
     header p { font-size: 1.15em; opacity: 0.9; margin: 0; }
@@ -417,12 +406,10 @@
       color: #ddd;
       text-align: center;
       padding: 10px 20px 10px 20px;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: 0.8s;
     }
+    footer img { max-height: 400px; width: auto; max-width: 100%; border-radius: 12px; margin: 20px auto; display: block; }
     footer.visible { opacity: 1; transform: translateY(0); }
-    footer .socials a { color: #ddd; margin: 0 10px; font-size: 1.5em; transition: 0.3s; }
+    footer .socials a { color: #ddd; margin: 0 10px; transition: 0.3s; }
     footer .socials a:hover { transform: scale(1.2); opacity: 0.8; }
     footer p { margin: 10px 0 0; font-size: 13px; color: #777; }
 
