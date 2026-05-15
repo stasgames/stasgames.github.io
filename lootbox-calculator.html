@@ -213,10 +213,19 @@
       margin-bottom: 6px;
     }
     body.dark .items-header { border-color: #333; color: #666; }
-    .hdr3 { grid-template-columns: 1fr 90px 80px 34px; }
-    .hdr4 { grid-template-columns: 1fr 90px 80px 120px 34px; }
-    .hdr5 { grid-template-columns: 1fr 90px 80px 50px 90px 90px 34px; }
+    .hdr3 { grid-template-columns: 28px 1fr 90px 80px 34px; }
+    .hdr4 { grid-template-columns: 28px 1fr 90px 80px 120px 34px; }
+    .hdr5 { grid-template-columns: 28px 1fr 90px 80px 50px 90px 90px 34px; }
 
+    .item-num {
+      font-size: 12px;
+      color: #bbb;
+      text-align: center;
+      padding: 6px 0;
+      font-variant-numeric: tabular-nums;
+    }
+    body.dark .item-num { color: #555; }
+    
     .item-row {
       display: grid;
       gap: 8px;
@@ -502,7 +511,7 @@
     <div id="tab-fixed">
       <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;Weights stay constant. Every box opening is an independent event. Standard gacha behaviour.</p>
       <div class="items-grid">
-        <div class="items-header hdr3"><span>Item</span><span>Weight</span><span>Chance</span><span></span></div>
+        <div class="items-header hdr3"><span>#</span><span>Item</span><span>Weight</span><span>Chance</span><span></span></div>
         <div id="rows-fixed"></div>
         <button class="add-btn" onclick="addItem('fixed')"><i class="fa-solid fa-plus"></i> Add item</button>
       </div>
@@ -517,7 +526,7 @@
     <div id="tab-remove" style="display:none">
       <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;After an item drops it is removed from the pool. Guarantees all items in finite attempts - odds shift every opening.</p>
       <div class="items-grid">
-        <div class="items-header hdr3"><span>Item</span><span>Weight</span><span>Chance*</span><span></span></div>
+        <div class="items-header hdr3"><span>#</span><span>Item</span><span>Weight</span><span>Chance*</span><span></span></div>
         <div id="rows-remove"></div>
         <button class="add-btn" onclick="addItem('remove')"><i class="fa-solid fa-plus"></i> Add item</button>
         <p class="warn-note"><i class="fa-solid fa-triangle-exclamation"></i> Chance recalculates each opening based on remaining items.</p>
@@ -533,7 +542,7 @@
     <div id="tab-pity" style="display:none">
       <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;Enable pity on an item: every N failed attempts its weight increases by the set amount. Other items' weights decrease proportionally.</p>
       <div class="items-grid">
-        <div class="items-header hdr5"><span>Item</span><span>Base weight</span><span>Chance</span><span>Pity</span><span>Step (attempts)</span><span>Weight gain</span><span></span></div>
+        <div class="items-header hdr5"><span>#</span><span>Item</span><span>Base weight</span><span>Chance</span><span>Pity</span><span>Step (attempts)</span><span>Weight gain</span><span></span></div>
         <div id="rows-pity"></div>
         <button class="add-btn" onclick="addItem('pity')"><i class="fa-solid fa-plus"></i> Add item</button>
         <p class="warn-note"><i class="fa-solid fa-triangle-exclamation"></i> Chance recalculates each opening based on remaining items.</p>
@@ -582,6 +591,7 @@ function renderItems(mode){
     const prob = tw>0?((it.w/tw)*100).toFixed(2):'0.00';
     if(mode==='fixed'||mode==='remove'){
       html+=`<div class="item-row hdr3">
+        <div class="item-num">${i + 1}</div>
         <input type="text" value="${escH(it.name)}" oninput="state['${mode}'][${i}].name=this.value">
         <input type="number" value="${it.w}" min="0" step="any" oninput="state['${mode}'][${i}].w=parseFloat(this.value)||0;renderItems('${mode}')">
         <div class="prob-cell">${prob}%</div>
@@ -589,6 +599,7 @@ function renderItems(mode){
       </div>`;
     } else {
       html+=`<div class="item-row hdr5">
+        <div class="item-num">${i + 1}</div>
         <input type="text" value="${escH(it.name)}" oninput="state.pity[${i}].name=this.value">
         <input type="number" value="${it.w}" min="0" step="any" oninput="state.pity[${i}].w=parseFloat(this.value)||0;renderItems('pity')">
         <div class="prob-cell">${prob}%</div>
