@@ -395,6 +395,47 @@
     .val-mean { font-weight: 600; color: var(--accent2); }
     body.dark .val-mean { color: #a07fe0; }
 
+    /* ── SPOILER ── */
+    .how-it-works {
+      border: 1px solid #e0e0f0;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      overflow: hidden;
+    }
+    .how-it-works summary {
+      padding: 10px 16px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: #666;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      user-select: none;
+      transition: background 0.2s;
+    }
+    .how-it-works summary::-webkit-details-marker { display: none; }
+    .how-it-works summary::after {
+      content: '▸';
+      margin-left: auto;
+      transition: transform 0.2s;
+    }
+    .how-it-works[open] summary::after { transform: rotate(90deg); }
+    .how-it-works summary:hover { background: #f5f5ff; }
+    .how-it-works-body {
+      padding: 4px 16px 14px;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #555;
+      border-top: 1px solid #e0e0f0;
+    }
+    .how-it-works-body p { margin: 8px 0 0; }
+    body.dark .how-it-works { border-color: #333; }
+    body.dark .how-it-works summary { color: #aaa; }
+    body.dark .how-it-works summary:hover { background: #1a1a35; }
+    body.dark .how-it-works-body { color: #999; border-color: #333; }
+
     /* ── FOOTER ── */
     footer {
       margin-top: 40px;
@@ -439,6 +480,17 @@
   <section class="calc-section" id="calc">
     <h2>DROP RATE SIMULATOR</h2>
     <p class="section-desc">Pick a mode, set item weights, run the simulation - get median, average and 95th percentile results.</p>
+
+    <details class="how-it-works">
+    <summary>⚙️ How does it work?</summary>
+    <div class="how-it-works-body">
+      <p>The calculator runs a <strong>Monte Carlo simulation</strong>: it repeats the lootbox opening process thousands of times and collects statistics on how many attempts it took to get each item.</p>
+      <p><strong>Fixed Weights</strong> - each opening is independent. Every item has a fixed probability equal to its weight divided by the total weight of all items. The pool never changes.</p>
+      <p><strong>Remove on Drop</strong> - once an item drops, it is removed from the pool. Remaining items' probabilities increase with each opening. This guarantees all items are obtained in a finite number of attempts equal to the item count at minimum.</p>
+      <p><strong>Pity System</strong> - a selected item's weight increases by a set amount every N failed attempts. The weights of all other items decrease proportionally to keep the total balanced. This simulates "bad luck protection" mechanics common in modern gacha games.</p>
+      <p>Results show the <strong>average</strong> (mean attempts across all runs), <strong>median</strong> (50% of players get the item by this attempt), <strong>95th percentile</strong> (how many attempts the unluckiest 5% need), and the <strong>min/max</strong> range.</p>
+    </div>
+    </details>
 
     <div class="tabs">
       <button class="tab active" onclick="switchTab('fixed')"><i class="fa-solid fa-lock"></i> Fixed Weights</button>
