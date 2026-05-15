@@ -497,7 +497,8 @@
       <p>The calculator runs a <strong>Monte Carlo simulation</strong>: it repeats the lootbox opening process thousands of times and collects statistics on how many attempts it took to get each item.</p>
       <p><strong>Fixed Weights</strong> - each opening is independent. Every item has a fixed probability equal to its weight divided by the total weight of all items. The pool never changes.</p>
       <p><strong>Remove on Drop</strong> - once an item drops, it is removed from the pool. Remaining items' probabilities increase with each opening. This guarantees all items are obtained in a finite number of attempts equal to the item count at minimum.</p>
-      <p><strong>Pity System</strong> - a selected item's weight increases by a set amount every N failed attempts. The weights of other items stay unchanged, but their <em>probability</em> decreases proportionally as the total weight sum grows.</p>
+      <p><strong>Pity System</strong> - a selected item's weight increases by a set amount every N failed attempts. The weights of other items stay unchanged, but their <em>probability</em> decreases as the total weight sum grows.</p>
+      <p><strong>Hard Pity</strong> - one item can be marked as guaranteed: it will always drop on a specific attempt number, regardless of weights. All other attempts follow normal weighted probability. Only one item can have a guarantee at a time.</p>
       <p>Results show the <strong>average</strong> (mean attempts across all runs), <strong>median</strong> (50% of players get the item by this attempt), <strong>95th percentile</strong> (how many attempts the unluckiest 5% need), and the <strong>min/max</strong> range.</p>
     </div>
     </details>
@@ -542,7 +543,7 @@
 
     <!-- PITY -->
     <div id="tab-pity" style="display:none">
-      <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;Enable pity on an item: every N failed attempts its weight increases by the set amount. Other items' weights decrease proportionally.</p>
+      <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;Enable pity on an item: every N failed attempts its weight increases by the set amount. Other items' weights stay unchanged, but their probability decreases as the total weight sum grows.</p>
       <div class="items-grid">
         <div class="items-header hdr5"><span>#</span><span>Item</span><span>Base weight</span><span>Chance</span><span>Pity</span><span>Step (attempts)</span><span>Weight gain</span><span></span></div>
         <div id="rows-pity"></div>
@@ -560,7 +561,7 @@
     <div id="tab-hard" style="display:none">
       <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;One item can be set as guaranteed - it will always drop on a specific attempt number regardless of weights. All other attempts use normal weighted probability.</p>
       <div class="items-grid">
-        <div class="items-header hdr3"><span>#</span><span>Item</span><span>Weight</span><span>Chance</span><span></span></div>
+        <div class="items-header hdr3g"><span>#</span><span>Item</span><span>Weight</span><span>Chance</span><span>Guaranteed attempt</span><span></span></div>
         <div id="rows-hard"></div>
         <button class="add-btn" onclick="addItem('hard')"><i class="fa-solid fa-plus"></i> Add item</button>
         <p class="warn-note"><i class="fa-solid fa-triangle-exclamation"></i> Only one item can have a guaranteed attempt. Selecting a new one clears the previous.</p>
@@ -638,7 +639,7 @@ function renderItems(mode){
         <input type="number" value="${it.w}" min="0" step="any" oninput="state.hard[${i}].w=parseFloat(this.value)||0;renderItems('hard')">
         <div class="prob-cell">${prob}%</div>
         <label class="pity-check"><input type="checkbox" ${it.guaranteed?'checked':''} onchange="setGuaranteed(${i})"> guaranteed</label>
-        <input type="number" value="${it.guaranteedAt||0}" min="1" placeholder="attempt #" oninput="state.hard[${i}].guaranteedAt=parseInt(this.value)||0" ${!it.guaranteed?'disabled':''}>
+        <input type="number" value="${it.guaranteedAt||0}" min="1" oninput="state.hard[${i}].guaranteedAt=parseInt(this.value)||0" ${!it.guaranteed?'disabled':''}>
         <button class="del-btn" onclick="delItem('hard',${i})" aria-label="delete"><i class="fa-solid fa-xmark"></i></button>
       </div>`;
     }
