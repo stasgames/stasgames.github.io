@@ -216,6 +216,7 @@
     .hdr3 { grid-template-columns: 28px 1fr 90px 80px 34px; }
     .hdr4 { grid-template-columns: 28px 1fr 90px 80px 120px 34px; }
     .hdr5 { grid-template-columns: 28px 1fr 90px 80px 50px 90px 90px 34px; }
+    .hdr3g { grid-template-columns: 28px 1fr 90px 80px 60px 90px 34px; }
 
     .item-num {
       font-size: 12px;
@@ -505,6 +506,7 @@
       <button class="tab active" onclick="switchTab('fixed')"><i class="fa-solid fa-lock"></i> Fixed Weights</button>
       <button class="tab" onclick="switchTab('remove')"><i class="fa-solid fa-ban"></i> Remove on Drop</button>
       <button class="tab" onclick="switchTab('pity')"><i class="fa-solid fa-chart-line"></i> Pity System</button>
+      <button class="tab" onclick="switchTab('hard')"><i class="fa-solid fa-flag-checkered"></i> Hard Pity</button>
     </div>
 
     <!-- FIXED -->
@@ -553,6 +555,22 @@
       </div>
       <div id="res-pity" class="results"></div>
     </div>
+
+    <!-- HARD -->
+    <div id="tab-hard" style="display:none">
+      <p class="mode-hint"><i class="fa-solid fa-info-circle"></i> &nbsp;One item can be set as guaranteed - it will always drop on a specific attempt number regardless of weights. All other attempts use normal weighted probability.</p>
+      <div class="items-grid">
+        <div class="items-header hdr3"><span>#</span><span>Item</span><span>Weight</span><span>Chance</span><span></span></div>
+        <div id="rows-hard"></div>
+        <button class="add-btn" onclick="addItem('hard')"><i class="fa-solid fa-plus"></i> Add item</button>
+        <p class="warn-note"><i class="fa-solid fa-triangle-exclamation"></i> Only one item can have a guaranteed attempt. Selecting a new one clears the previous.</p>
+      </div>
+      <div class="ctrl-row">
+        <div class="ctrl-group"><label>Simulations</label><input id="iters-hard" type="number" value="5000" min="100" max="50000" step="1000"></div>
+        <button class="run-btn" id="btn-hard" onclick="runHard()"><i class="fa-solid fa-play"></i> Run</button>
+      </div>
+      <div id="res-hard" class="results"></div>
+    </div>
   </section>
 </main>
 
@@ -577,6 +595,11 @@ const state = {
     {name:'Rare Shield',w:5,pity:false,step:0,inc:0},
     {name:'Common Helmet',w:20,pity:false,step:0,inc:0},
     {name:'Potion',w:74,pity:false,step:0,inc:0}
+  ],
+  hard: [{name:'Legendary Sword',w:1,guaranteed:true,guaranteedAt:50},
+  {name:'Rare Shield',w:5,guaranteed:false,guaranteedAt:0},
+  {name:'Common Helmet',w:20,guaranteed:false,guaranteedAt:0},
+  {name:'Potion',w:74,guaranteed:false,guaranteedAt:0}
   ]
 };
 
@@ -591,15 +614,15 @@ function renderItems(mode){
     const prob = tw>0?((it.w/tw)*100).toFixed(2):'0.00';
     if(mode==='fixed'||mode==='remove'){
       html+=`<div class="item-row hdr3">
-        <div class="item-num">${i + 1}</div>
+        <div class="item-num">${i+1}</div>
         <input type="text" value="${escH(it.name)}" oninput="state['${mode}'][${i}].name=this.value">
         <input type="number" value="${it.w}" min="0" step="any" oninput="state['${mode}'][${i}].w=parseFloat(this.value)||0;renderItems('${mode}')">
         <div class="prob-cell">${prob}%</div>
         <button class="del-btn" onclick="delItem('${mode}',${i})" aria-label="delete"><i class="fa-solid fa-xmark"></i></button>
       </div>`;
-    } else {
+    } else if(mode==='pity'){
       html+=`<div class="item-row hdr5">
-        <div class="item-num">${i + 1}</div>
+        <div class="item-num">${i+1}</div>
         <input type="text" value="${escH(it.name)}" oninput="state.pity[${i}].name=this.value">
         <input type="number" value="${it.w}" min="0" step="any" oninput="state.pity[${i}].w=parseFloat(this.value)||0;renderItems('pity')">
         <div class="prob-cell">${prob}%</div>
@@ -608,18 +631,33 @@ function renderItems(mode){
         <input type="number" value="${it.inc||0}" min="0" step="any" oninput="state.pity[${i}].inc=parseFloat(this.value)||0" ${!it.pity?'disabled':''}>
         <button class="del-btn" onclick="delItem('pity',${i})" aria-label="delete"><i class="fa-solid fa-xmark"></i></button>
       </div>`;
+    } else if(mode==='hard'){
+      html+=`<div class="item-row hdr3g">
+        <div class="item-num">${i+1}</div>
+        <input type="text" value="${escH(it.name)}" oninput="state.hard[${i}].name=this.value">
+        <input type="number" value="${it.w}" min="0" step="any" oninput="state.hard[${i}].w=parseFloat(this.value)||0;renderItems('hard')">
+        <div class="prob-cell">${prob}%</div>
+        <label class="pity-check"><input type="checkbox" ${it.guaranteed?'checked':''} onchange="setGuaranteed(${i})"> guaranteed</label>
+        <input type="number" value="${it.guaranteedAt||0}" min="1" placeholder="attempt #" oninput="state.hard[${i}].guaranteedAt=parseInt(this.value)||0" ${!it.guaranteed?'disabled':''}>
+        <button class="del-btn" onclick="delItem('hard',${i})" aria-label="delete"><i class="fa-solid fa-xmark"></i></button>
+      </div>`;
     }
   });
   cont.innerHTML = html;
 }
 
 function escH(s){ return s.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
-function addItem(m){ state[m].push(m==='pity'?{name:'New Item',w:1,pity:false,step:10,inc:1}:{name:'New Item',w:1}); renderItems(m); }
+function addItem(m){
+  if(m==='pity') state[m].push({name:'New Item',w:1,pity:false,step:10,inc:1});
+  else if(m==='hard') state[m].push({name:'New Item',w:1,guaranteed:false,guaranteedAt:0});
+  else state[m].push({name:'New Item',w:1});
+  renderItems(m);
+}
 function delItem(m,i){ if(state[m].length<=1)return; state[m].splice(i,1); renderItems(m); }
 
 function switchTab(t){
-  ['fixed','remove','pity'].forEach(k=>{ document.getElementById('tab-'+k).style.display=k===t?'':'none'; });
-  document.querySelectorAll('.tab').forEach((b,i)=>{ b.classList.toggle('active',['fixed','remove','pity'][i]===t); });
+  ['fixed','remove','pity','hard'].forEach(k=>{ document.getElementById('tab-'+k).style.display=k===t?'':'none'; });
+  document.querySelectorAll('.tab').forEach((b,i)=>{ b.classList.toggle('active',['fixed','remove','pity','hard'][i]===t); });
 }
 
 function wRand(pool){
@@ -630,6 +668,11 @@ function wRand(pool){
 }
 
 function setLoading(id,on){ const b=document.getElementById(id); b.classList.toggle('loading',on); b.innerHTML=on?'<i class="fa-solid fa-spinner fa-spin"></i> Running…':'<i class="fa-solid fa-play"></i> Run'; }
+
+function setGuaranteed(idx) {
+ state.hard.forEach((it, i) => { it.guaranteed = (i === idx) ? !it.guaranteed : false; });
+ renderItems('hard');
+}
 
 function runFixed(){
   const items=state.fixed; const iters=parseInt(document.getElementById('iters-fixed').value)||10000;
@@ -686,6 +729,39 @@ function runPity(){
     showResults('res-pity',items,tries,iters,'Pity System');
     setLoading('btn-pity',false);
   },10);
+}
+
+function runHard() {
+  const items = state.hard;
+  const iters = parseInt(document.getElementById('iters-hard').value) || 5000;
+  setLoading('btn-hard', true);
+  setTimeout(() => {
+    const n = items.length;
+    const pool = items.map((it, i) => ({ idx: i, w: parseFloat(it.w) || 0 }));
+    const gIdx = items.findIndex(it => it.guaranteed);
+    const gAt = gIdx >= 0 ? (items[gIdx].guaranteedAt || 0) : 0;
+    const tries = items.map(() => []);
+
+    for (let s = 0; s < iters; s++) {
+      const got = new Array(n).fill(false);
+      let t = 0;
+      while (got.some(x => !x)) {
+        t++;
+        // guaranteed drop на заданной попытке
+        if (gIdx >= 0 && !got[gIdx] && gAt > 0 && t === gAt) {
+          got[gIdx] = true;
+          tries[gIdx].push(t);
+          continue;
+        }
+        const activePools = pool.filter(x => !got[x.idx]);
+        if (!activePools.length) break;
+        const idx = wRand(activePools);
+        if (!got[idx]) { got[idx] = true; tries[idx].push(t); }
+      }
+    }
+    showResults('res-hard', items, tries, iters, 'Hard Pity');
+    setLoading('btn-hard', false);
+  }, 10);
 }
 
 function showResults(contId,items,tries,iters,modeLabel){
@@ -750,6 +826,7 @@ window.addEventListener('scroll',()=>{
 renderItems('fixed');
 renderItems('remove');
 renderItems('pity');
+renderItems('hard');
 </script>
 </body>
 </html>
