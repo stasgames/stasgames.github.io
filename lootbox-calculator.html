@@ -496,7 +496,7 @@
       <p>The calculator runs a <strong>Monte Carlo simulation</strong>: it repeats the lootbox opening process thousands of times and collects statistics on how many attempts it took to get each item.</p>
       <p><strong>Fixed Weights</strong> - each opening is independent. Every item has a fixed probability equal to its weight divided by the total weight of all items. The pool never changes.</p>
       <p><strong>Remove on Drop</strong> - once an item drops, it is removed from the pool. Remaining items' probabilities increase with each opening. This guarantees all items are obtained in a finite number of attempts equal to the item count at minimum.</p>
-      <p><strong>Pity System</strong> - a selected item's weight increases by a set amount every N failed attempts. The weights of all other items decrease proportionally to keep the total balanced. This simulates "bad luck protection" mechanics common in modern gacha games.</p>
+      <p><strong>Pity System</strong> - a selected item's weight increases by a set amount every N failed attempts. The weights of other items stay unchanged, but their <em>probability</em> decreases proportionally as the total weight sum grows.</p>
       <p>Results show the <strong>average</strong> (mean attempts across all runs), <strong>median</strong> (50% of players get the item by this attempt), <strong>95th percentile</strong> (how many attempts the unluckiest 5% need), and the <strong>min/max</strong> range.</p>
     </div>
     </details>
@@ -545,7 +545,7 @@
         <div class="items-header hdr5"><span>#</span><span>Item</span><span>Base weight</span><span>Chance</span><span>Pity</span><span>Step (attempts)</span><span>Weight gain</span><span></span></div>
         <div id="rows-pity"></div>
         <button class="add-btn" onclick="addItem('pity')"><i class="fa-solid fa-plus"></i> Add item</button>
-        <p class="warn-note"><i class="fa-solid fa-triangle-exclamation"></i> Chance recalculates each opening based on remaining items.</p>
+        <p class="warn-note"><i class="fa-solid fa-triangle-exclamation"></i> Other items' weights stay fixed - their drop chance decreases as the pity item's weight grows and raises the total.</p>
       </div>
       <div class="ctrl-row">
         <div class="ctrl-group"><label>Simulations</label><input id="iters-pity" type="number" value="5000" min="100" max="50000" step="1000"></div>
