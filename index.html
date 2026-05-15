@@ -115,8 +115,7 @@
     }
     
     body.dark section.about { background: #1e1e2f; }
-    body.dark section#projects { background-color: #1a1a1a; box-shadow: none; }
-    body.dark section#tools { background-color: #1a1a1a; box-shadow: none; }
+    body.dark .content-section { background-color: #1a1a1a; box-shadow: none; }
     body.dark th { background: #333366; color: #fff; }
     body.dark tr:nth-child(even) { background: #2a2a3d; }
     body.dark tr:hover { background: #3a3a55; }
@@ -149,9 +148,9 @@
       h2 { font-size: 1.5em; }
     }
 
-    section#projects {
-    max-width: 100%;
-    margin: 40px 0;
+    .content-section {
+    max-width: 1200px;
+    margin: 40px auto;
     padding: 30px;
     border-radius: 12px;
     background-color: #fff;
@@ -164,16 +163,6 @@
     gap: 30px;
     align-items: stretch;
     grid-auto-rows: auto;
-    }
-    
-    section#tools {
-    max-width: 100%;
-    margin: 40px 0;
-    padding: 30px;
-    border-radius: 12px;
-    background-color: #fff;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    transition: background-color 0.4s;
     }
     
     .card {
@@ -340,7 +329,7 @@
     </p>
   </section>
 
-  <section id="projects">
+  <section id="projects" class="content-section">
   <h2>MY PROJECTS</h2>
   <div class="projects-grid">
 
@@ -770,7 +759,7 @@
   </section>
 </main>
   
-<section id="tools">
+<section id="tools" class="content-section">
   <h2>TOOLS</h2>
   <div class="projects-grid">
 
