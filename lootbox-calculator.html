@@ -758,6 +758,7 @@ function runHard() {
         const idx = wRand(activePools);
         if (!got[idx]) { got[idx] = true; tries[idx].push(t); }
       }
+      if (s === 0) console.log('sim 0 result: Vehicle dropped at attempt', tries[0][0]);
     }
     showResults('res-hard', items, tries, iters, 'Hard Pity');
     setLoading('btn-hard', false);
