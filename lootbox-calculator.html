@@ -738,12 +738,11 @@ function runHard() {
   setLoading('btn-hard', true);
   setTimeout(() => {
     const n = items.length;
-    const pool = items.map((it, i) => ({ idx: i, w: parseFloat(it.w) || 0 }));
     const gIdx = items.findIndex(it => it.guaranteed);
     const gAt = gIdx >= 0 ? (items[gIdx].guaranteedAt || 0) : 0;
     const tries = items.map(() => []);
-
     for (let s = 0; s < iters; s++) {
+      const pool = items.map((it, i) => ({ idx: i, w: parseFloat(it.w) || 0 }));
       const got = new Array(n).fill(false);
       let t = 0;
       while (got.some(x => !x)) {
