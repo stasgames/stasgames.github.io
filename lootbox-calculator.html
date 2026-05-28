@@ -712,19 +712,25 @@ function runPity(){
     const n=items.length; const baseW=items.map(it=>parseFloat(it.w)||0);
     const tries=items.map(()=>[]);
     for(let s=0;s<iters;s++){
-      const got=new Array(n).fill(false); const miss=new Array(n).fill(0); let t=0;
+      const got=new Array(n).fill(false);
+      const miss=new Array(n).fill(0);
+      let t=0;
       while(got.some(x=>!x)){
         t++;
         const cw=baseW.map((w,i)=>{
-          if(got[i]) return 0;
           if(!items[i].pity||!items[i].step||items[i].step<=0) return w;
           return w+Math.floor(miss[i]/items[i].step)*(parseFloat(items[i].inc)||0);
         });
         const tw=cw.reduce((s,w)=>s+w,0); if(tw<=0) break;
         let r=Math.random()*tw,c=0,idx=-1;
         for(let j=0;j<n;j++){c+=cw[j];if(r<c){idx=j;break;}} if(idx<0)idx=n-1;
-        if(!got[idx]){got[idx]=true;tries[idx].push(t);miss[idx]=0;}
-        for(let j=0;j<n;j++) if(!got[j]&&j!==idx) miss[j]++;
+        if(!got[idx]){ got[idx]=true; tries[idx].push(t); }
+        for(let j=0;j<n;j++){
+          if(!got[j]){
+            if(j===idx) miss[j]=0;
+            else miss[j]++;
+          }
+        }
       }
     }
     showResults('res-pity',items,tries,iters,'Pity System');
@@ -732,38 +738,32 @@ function runPity(){
   },10);
 }
 
-function runHard() {
-  const items = state.hard;
-  const iters = parseInt(document.getElementById('iters-hard').value) || 5000;
-  setLoading('btn-hard', true);
-  setTimeout(() => {
-    const n = items.length;
-    const gIdx = items.findIndex(it => it.guaranteed);
-    const gAt = gIdx >= 0 ? (items[gIdx].guaranteedAt || 0) : 0;
-    const tries = items.map(() => []);
-    console.log('gIdx:', gIdx, 'gAt:', gAt, 'item:', items[gIdx]?.name);
-    for (let s = 0; s < iters; s++) {
-      const pool = items.map((it, i) => ({ idx: i, w: parseFloat(it.w) || 0 }));
-      const got = new Array(n).fill(false);
-      let t = 0;
-      while (got.some(x => !x)) {
+function runHard(){
+  const items=state.hard; const iters=parseInt(document.getElementById('iters-hard').value)||5000;
+  setLoading('btn-hard',true);
+  setTimeout(()=>{
+    const n=items.length;
+    const pool=items.map((it,i)=>({idx:i,w:parseFloat(it.w)||0}));
+    const gIdx=items.findIndex(it=>it.guaranteed);
+    const gAt=gIdx>=0?(items[gIdx].guaranteedAt||0):0;
+    const tries=items.map(()=>[]);
+    for(let s=0;s<iters;s++){
+      const got=new Array(n).fill(false);
+      let t=0;
+      while(got.some(x=>!x)){
         t++;
-        // guaranteed drop на заданной попытке
-        if (gIdx >= 0 && !got[gIdx] && gAt > 0 && t === gAt) {
-          got[gIdx] = true;
+        if(gIdx>=0&&!got[gIdx]&&gAt>0&&t===gAt){
+          got[gIdx]=true;
           tries[gIdx].push(t);
           continue;
         }
-        const activePools = pool.filter(x => !got[x.idx]);
-        if (!activePools.length) break;
-        const idx = wRand(activePools);
-        if (!got[idx]) { got[idx] = true; tries[idx].push(t); }
+        const idx=wRand(pool);
+        if(!got[idx]){ got[idx]=true; tries[idx].push(t); }
       }
-      if (s === 0) console.log('sim 0 result: Vehicle dropped at attempt', tries[0][0]);
     }
-    showResults('res-hard', items, tries, iters, 'Hard Pity');
-    setLoading('btn-hard', false);
-  }, 10);
+    showResults('res-hard',items,tries,iters,'Hard Pity');
+    setLoading('btn-hard',false);
+  },10);
 }
 
 function showResults(contId,items,tries,iters,modeLabel){
